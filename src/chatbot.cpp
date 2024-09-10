@@ -51,7 +51,7 @@ ChatBot::ChatBot(const ChatBot& other)
     this->_chatLogic = other._chatLogic;
     this->_rootNode = other._rootNode;
 
-    this->_image = other._image;
+    this->_image = new wxBitmap(*other._image);
 }   
 
 ChatBot &ChatBot::operator=(const ChatBot& other)
@@ -64,8 +64,9 @@ ChatBot &ChatBot::operator=(const ChatBot& other)
 
     this->_chatLogic = other._chatLogic;
     this->_rootNode = other._rootNode;
+    this->_currentNode = other._currentNode;
+    this->_image = new wxBitmap(*other._image);
 
-    this->_image = other._image;
     return *this;
 }
 
@@ -73,12 +74,16 @@ ChatBot::ChatBot(ChatBot &&other)
 {
     std::cout << "ChatBot Move Constructor" << std::endl;
 
-    this->_chatLogic = std::move(other._chatLogic);
-    this->_rootNode = std::move(other._rootNode);
-    this->_image = std::move(other._image);
+    this->_chatLogic = other._chatLogic;
+    this->_rootNode = other._rootNode;
+    this->_currentNode = other._currentNode;
+    this->_image = other._image;
+
+    this->_chatLogic->SetChatbotHandle(this);
 
     other._chatLogic = nullptr;
     other._rootNode = nullptr;
+    other._currentNode = nullptr;
     other._image = NULL;
 }
 
@@ -90,12 +95,16 @@ ChatBot &ChatBot::operator=(ChatBot &&other)
 
     std::cout << "ChatBot Move Assignment Operator" << std::endl;
 
-    this->_chatLogic = std::move(other._chatLogic);
-    this->_rootNode = std::move(other._rootNode);
-    this->_image = std::move(other._image);
+    this->_chatLogic = other._chatLogic;
+    this->_rootNode = other._rootNode;
+    this->_currentNode = other._currentNode;
+    this->_image = other._image;
+
+    this->_chatLogic->SetChatbotHandle(this);
 
     other._chatLogic = nullptr;
     other._rootNode = nullptr;
+    other._currentNode = nullptr;
     other._image = NULL;
     return *this;
 }
