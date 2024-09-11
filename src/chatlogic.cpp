@@ -29,11 +29,7 @@ ChatLogic::~ChatLogic()
 
     // all nodes automatically with smart pointer
 
-    // delete all edges
-    for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    {
-        delete *it;
-    }
+    // delete all edges no longer needed
 
     ////
     //// EOF STUDENT CODE
@@ -152,7 +148,6 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             
                             edge->SetChildNode(childNode->get());
                             edge->SetParentNode(parentNode->get());
-                            _edges.push_back(edge.get());
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
